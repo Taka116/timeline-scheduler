@@ -1,0 +1,21 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3>Class Information</h3>
+  </div>
+    <div class="panel-body text-center">
+      <h1><%= @univ_class.subject_name %></h1>
+      <h5>
+          Course Code: <font size=4><%= @univ_class.class_code %></font>
+      </h5>
+      <h5>
+        Subject Name:  <font size=4><%= @univ_class.subject_name %></font>
+      </h5>
+      <h5>
+        Period: <font size=4><%= @univ_class.period %></font>
+      </h5>
+      <h5>
+        Classroom: <font size=4><%= @univ_class.classroom %></font>
+      </h5>
+        <%= link_to "Add To Your Schedule", user_univ_class_path(@user, @univ_class), method: :patch, class: "btn btn-primary" %>
+  </div>
+</div>
