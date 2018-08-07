@@ -10,12 +10,12 @@
       <h5>
         Subject Name:  <font size=4><%= @univ_class.subject_name %></font>
       </h5>
-      <h5>
-        Period: <font size=4><%= @univ_class.period %></font>
-      </h5>
-      <h5>
-        Classroom: <font size=4><%= @univ_class.classroom %></font>
-      </h5>
+      <!--<h5>-->
+      <!--  Period: <font size=4>@univ_class.period</font>-->
+      <!--</h5>-->
+      <!--<h5>-->
+      <!--  Classroom: <font size=4>@univ_class.classroom %></font>-->
+      <!--</h5>-->
         <%= link_to "Add To Your Schedule", user_univ_class_path(@user, @univ_class), method: :patch, class: "btn btn-primary" %>
   </div>
 </div>

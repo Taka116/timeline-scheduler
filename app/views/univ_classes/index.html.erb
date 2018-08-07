@@ -6,8 +6,8 @@
             <th>Course Code</th>
             <th>Subject Name</th>
             <th>Professor</th>
-            <th>Period</th>
-            <th>Classroom</th>
+            <!--<th>Period</th>-->
+            <!--<th>Classroom</th>-->
         </tr>
         <tbody>
             <% @UnivClasses.each do |univ_class| %>
@@ -16,8 +16,7 @@
                     <th><%= univ_class.class_code %></th>
                     <th><%= univ_class.subject_name %></th>
                     <th><%= univ_class.professor %></th>
-                    <th><%= univ_class.period %></th>
-                    <th><%= univ_class.classroom %></th>
+                    <!--<th>univ_class.classroom %></th>-->
                 </tr>
             <% end %>
         </tbody>
