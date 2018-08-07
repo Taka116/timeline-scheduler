@@ -6,6 +6,8 @@ class UnivClass < ApplicationRecord
     
     validates :class_code, uniqueness: { scope: [:subject_name, :professor] }
     
+    scope :with_univ_class_details, -> { includes(:univ_class_details) }
+    
     def self.import(file)
         CSV.foreach(file.path, headers: true) do |row|
             univ_class = UnivClass.where(class_code: row["class_code"], subject_name: row["subject_name"], professor: row["professor"]).first

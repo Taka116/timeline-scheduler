@@ -1,7 +1,9 @@
 class UnivClassesController < ApplicationController
     def index
         @user = User.find(params[:user_id])
-        @UnivClasses = UnivClass.all
+        @UnivClasses = 
+            UnivClass
+                .with_univ_class_details
     end
     
     def update
