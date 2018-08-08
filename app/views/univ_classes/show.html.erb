@@ -19,6 +19,10 @@
       <h5>
         Classroom:  <font size=4><%= @univ_class.univ_class_details[0].classroom %></font>
       </h5>
+      <% if @univ_class.user != @user %>
         <%= link_to "Add To Your Schedule", user_univ_class_path(@user, @univ_class), method: :patch, class: "btn btn-primary" %>
+      <% else %>
+        <%= link_to "Remove from Your Schedule", user_univ_class_path(@user, @univ_class), method: :delete, class: "btn btn-danger" %>
+      <% end %>
   </div>
 </div>

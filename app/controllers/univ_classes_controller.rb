@@ -7,10 +7,11 @@ class UnivClassesController < ApplicationController
     end
     
     def update
+        @user = User.find(params[:user_id])
         @univ_class = UnivClass.find(params[:id])
         if @univ_class.update(update_params)
             flash[:success] = "Successfully Added to Your Time Schedule"
-            redirect_to user_path
+            redirect_to user_path(@user)
         else
             flash[:error] = "Something Happened."
             render 'index'
@@ -20,6 +21,18 @@ class UnivClassesController < ApplicationController
     def show
         @user = User.find(params[:user_id])
         @univ_class = UnivClass.find(params[:id])
+    end
+    
+    def destroy
+        @user = User.find(params[:user_id])
+        @univ_class = UnivClass.find(params[:id])
+        if @univ_class.update(user_id: nil)
+            flash[:success] = "Successfully Removed from Your Time Schedule"
+            redirect_to user_path(@user)
+        else
+            flash[:error] = "Something Happened."
+            render 'show'
+        end
     end
     
     def import
