@@ -1,9 +1,12 @@
 class UnivClassesController < ApplicationController
     def index
         @user = User.find(params[:user_id])
-        @UnivClasses = 
+        @univ_classes = 
             UnivClass
                 .with_univ_class_details
+        @univ_classes_per_day = UnivClass.with_same_day(params[:day])
+        day_index =  ["月", "火", "水", "木", "金"].index(params[:day])
+        @day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"][day_index]
     end
     
     def update
@@ -22,7 +25,7 @@ class UnivClassesController < ApplicationController
         @user = User.find(params[:user_id])
         @univ_class = UnivClass.find(params[:id])
     end
-    
+
     def destroy
         @user = User.find(params[:user_id])
         @univ_class = UnivClass.find(params[:id])

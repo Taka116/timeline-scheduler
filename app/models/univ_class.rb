@@ -8,6 +8,9 @@ class UnivClass < ApplicationRecord
     
     scope :with_univ_class_details, -> { includes(:univ_class_details) }
     
+    scope :with_same_day, -> (day) { joins(:univ_class_details).merge( UnivClassDetail.with_day(day) )}
+    # scope :with_posts, -> { joins(:posts).merge(Post.recent) }
+    
     def self.import(file)
         CSV.foreach(file.path, headers: true) do |row|
             univ_class = UnivClass.where(class_code: row["class_code"], subject_name: row["subject_name"], professor: row["professor"]).first
