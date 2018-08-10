@@ -12,7 +12,16 @@ class UnivClassesController < ApplicationController
     def update
         @user = User.find(params[:user_id])
         @univ_class = UnivClass.find(params[:id])
-        if @univ_class.update(update_params)
+        extreme = params[:extreme]
+        if extreme == "1"
+            byebug
+            existing_classes = UnivClass.with_same_day_and_period(@user.id, @univ_class.univ_class_details.pluck(:day), @univ_class.univ_class_details.pluck(:period))
+            existing_classes.update_all(user_id: nil)
+            @univ_class.update(update_params)
+            flash[:success] = "Successfully Added to Your Time Schedule"
+            redirect_to user_path(@user)
+        elsif extreme == "0"
+            @univ_class.update(update_params)
             flash[:success] = "Successfully Added to Your Time Schedule"
             redirect_to user_path(@user)
         else
@@ -24,6 +33,7 @@ class UnivClassesController < ApplicationController
     def show
         @user = User.find(params[:user_id])
         @univ_class = UnivClass.find(params[:id])
+        @existing_classes = UnivClass.with_same_day_and_period(@user.id, @univ_class.univ_class_details.pluck(:day), @univ_class.univ_class_details.pluck(:period))
     end
 
     def destroy

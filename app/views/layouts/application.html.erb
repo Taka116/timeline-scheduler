@@ -21,12 +21,9 @@
             </div>
             <ul class="nav navbar-nav">
               <li class="active"><a href="#">Home</a></li>
-              <li>
-                <%= link_to "course list", user_univ_classes_path(@user) %>
-              </li>
               <li class='dropdown'>
                 <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-                  Dropdown <span class='caret'></span>
+                  Course List <span class='caret'></span>
                 </a>
                 <ul class='dropdown-menu'>
                   <li>
@@ -64,7 +61,8 @@
           </div>
         </nav>
         <% flash.each do |key, value| %>
-          <div class="alert alert-<%= key %>">
+          <div class="alert alert-<%= key %> alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <%= value %>
           </div>
         <% end %>

@@ -7,10 +7,9 @@ class UnivClass < ApplicationRecord
     validates :class_code, uniqueness: { scope: [:subject_name, :professor] }
     
     scope :with_univ_class_details, -> { includes(:univ_class_details) }
-    
     scope :with_same_day, -> (day) { joins(:univ_class_details).merge( UnivClassDetail.with_day(day) )}
-    # scope :with_posts, -> { joins(:posts).merge(Post.recent) }
-    
+    scope :with_same_day_and_period, -> (user_id, days, periods) { UnivClass.where(user_id: user_id).joins(:univ_class_details).merge( UnivClassDetail.with_same_day_and_period(days, periods) ) }
+
     def self.import(file)
         CSV.foreach(file.path, headers: true) do |row|
             univ_class = UnivClass.where(class_code: row["class_code"], subject_name: row["subject_name"], professor: row["professor"]).first
