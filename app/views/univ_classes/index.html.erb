@@ -1,5 +1,51 @@
 <%= flash[:notice]  %>
 <!--<table>-->
+<div class="container">
+    <div class="panel panel-info detailed-search">
+        <div class="panel-heading">
+            <h3>Detailed Search</h3>
+        </div>
+        <div class="panel-body">
+            <div class="dropdown-detailed-search">
+                <div class="dropdown-day">
+                    <div class="dropdown col-xs-12">
+                    	<button class="btn btn-default dropdown-toggle detailed-search" disable="true" type="button" data-toggle="dropdown" data-target="day">
+                    		Select Day<span class="caret" style="margin-left: 10px"></span>
+                    	</button>
+                    	<ul class="dropdown-menu" role="menu">
+                    		<li role="presentation"><a tabindex="-1" href="javascript:void(0)">Mon</a></li>
+                    		<li role="presentation"><a tabindex="-1" href="javascript:void(0)">Tues</a></li>
+                    		<li role="presentation"><a tabindex="-1" href="javascript:void(0)">Wed</a></li>
+                    		<li role="presentation"><a tabindex="-1" href="javascript:void(0)">Thurs</a></li>
+                    		<li role="presentation"><a tabindex="-1" href="javascript:void(0)">Fri</a></li>
+                    		<li role="presentation"><a tabindex="-1" href="javascript:void(0)">All</a></li>
+                    	</ul>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown-detailed-search">
+                <div class="dropdown-period">
+                    <div class="dropdown col-xs-12">
+                    	<button class="btn btn-default dropdown-toggle detailed-search" type="button" data-toggle="dropdown" data-target="period">
+                    	    Select Period<span class="caret" style="margin-left: 10px"></span>
+                    	</button>
+                    	<ul class="dropdown-menu" role="menu">
+                    		<li role="presentation"><a href="javascript:void(0)">1</a></li>
+                    		<li role="presentation"><a href="javascript:void(0)">2</a></li>
+                    		<li role="presentation"><a href="javascript:void(0)">3</a></li>
+                    		<li role="presentation"><a href="javascript:void(0)">4</a></li>
+                    		<li role="presentation"><a href="javascript:void(0)">5</a></li>
+                    		<li role="presentation"><a href="javascript:void(0)">All</a></li>
+                    	</ul>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown-detailed-search">
+                <input type="button" onclick='"#"' value="Search!" class="btn btn-primary detailed-search" id="detailed-search-button"/>
+        	</div>
+        </div>
+    </div>
+</div>
 <table class="table table-hover">
     <thead>
         <tr>
@@ -10,9 +56,12 @@
             <th>Classroom</th>
         </tr>
         <tbody>
-            <h1><%= @day %></h1>
-            <% @univ_classes_per_day.each do |univ_class| %>
-                <!--<tr onclick='window.location="<%= user_univ_class_path(@user.id, univ_class.id) %>"', role="link">-->
+            <% if @period.nil? || @period.kind_of?(Array) %>
+                <h1 class="class-info-bar"><%= @day %></h1>
+            <% else %>
+                <h1 class="class-info-bar"><%= @day %> <span class="slash">|</span> <%= @period.to_i.ordinalize %> Period</h1>
+            <% end %>
+            <% @univ_classes.each do |univ_class| %>
                 <tr onclick='window.location="<%= user_univ_class_path(@user.id, univ_class.id) %>"', role="link">
                     <th><%= univ_class.class_code %></th>
                     <th><%= univ_class.subject_name %></th>
@@ -35,3 +84,57 @@
         <%= submit_tag "import csv" %>
     <% end %>
 </div>
+
+<style>
+    .panel.panel-info.detailed-search {
+        width: 1100px !important;
+    }
+    .btn.btn-default.dropdown-toggle.detailed-search {
+        width: 300px !important;
+    }
+    .btn.btn-primary.detailed-search {
+        background-color: #f44336;
+        width: 200px;
+        vertical-align: middle;
+        margin-bottom: 27px;
+    }
+    .dropdown-detailed-search {
+       display: inline-block !important;
+    }
+    .slash{
+        font-size: 30px;
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+    .class-info-bar {
+        margin-bottom: 30px;
+    }
+</style>
+
+<script>
+    $(".dropdown-period .dropdown .dropdown-menu li a").click(function(){
+        $(".btn:first-child")[1].innerHTML = $(this).text() + '<span class="caret" style="margin-left: 10px"></span>';
+        var day = $(".btn:first-child")[0].innerHTML.split('<')[0];
+        if (day.replace(/\r?\n/g,"").trim() == "Select Day") {  $(".btn:first-child")[0].innerHTML = 'All' + '<span class="caret" style="margin-left: 10px"></span>'}
+        var period = $(this).text();
+        var day_convertor = {"Mon" : "月", "Tues" : "火", "Wed" : "水", "Thurs" : "木", "Fri" : "金", "Select Day" : "All", "All" : "All"};
+        struct_link(day_convertor[day], period);
+    });
+
+    $(".dropdown-day .dropdown .dropdown-menu li a").click(function(){
+        $(".btn:first-child")[0].innerHTML = $(this).text() + '<span class="caret" style="margin-left: 10px"></span>';
+        var period = $(".btn:first-child")[1].innerHTML.split('<')[0];
+        if (period.replace(/\r?\n/g,"").trim() == "Select Period") {  $(".btn:first-child")[1].innerHTML = 'All' + '<span class="caret" style="margin-left: 10px"></span>'}
+        var day = $(this).text();
+        var day_convertor = {"Mon" : "月", "Tues" : "火", "Wed" : "水", "Thurs" : "木", "Fri" : "金", "Select Day" : "All"};
+        struct_link(day_convertor[day], period);
+    });
+    
+    function struct_link(day = "All", period = "All") {
+        // ### SELECT PERIOD ###
+        var text = "/users/<%= @user.id %>/univ_classes?day="+day+"&period="+period
+        document.getElementById("detailed-search-button").attributes[1].value =`window.location="${text}"`;
+        console.log(text);
+        return text;
+    }
+</script>

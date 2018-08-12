@@ -8,7 +8,8 @@ class UnivClass < ApplicationRecord
     
     scope :with_univ_class_details, -> { includes(:univ_class_details) }
     scope :with_same_day, -> (day) { joins(:univ_class_details).merge( UnivClassDetail.with_day(day) )}
-    scope :with_same_day_and_period, -> (user_id, days, periods) { UnivClass.where(user_id: user_id).joins(:univ_class_details).merge( UnivClassDetail.with_same_day_and_period(days, periods) ) }
+    scope :with_same_day_and_period_with_user, -> (user_id, days, periods) { UnivClass.where(user_id: user_id).joins(:univ_class_details).merge( UnivClassDetail.with_same_day_and_period(days, periods) ) }
+    scope :with_same_day_and_period_without_user, -> (days, periods) { UnivClass.joins(:univ_class_details).merge( UnivClassDetail.with_same_day_and_period(days, periods) ) }
 
     def self.import(file)
         CSV.foreach(file.path, headers: true) do |row|
