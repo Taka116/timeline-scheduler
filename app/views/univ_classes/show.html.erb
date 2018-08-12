@@ -5,17 +5,30 @@
     <div class="panel-body text-center">
       <h1><%= @univ_class.subject_name %></h1>
       <h5>
-          Course Code: <font size=4><%= @univ_class.class_code %></font>
+        Course Code: <font size=4><%= @univ_class.class_code %></font>
       </h5>
       <h5>
-        Subject Name:  <font size=4><%= @univ_class.subject_name %></font>
+        Professor:  <font size=4><%= @univ_class.professor %></font>
       </h5>
       <h5>
-        Period: <font size=4><%= @univ_class.period %></font>
+        Day & Period:  
+        <% @univ_class.univ_class_details.pluck(:day, :period).each do |detail| %>
+            <font size=4><%= detail[0]%>, <%= detail[1] %></font>
+        <% end %>
       </h5>
       <h5>
-        Classroom: <font size=4><%= @univ_class.classroom %></font>
+        Classroom:  <font size=4><%= @univ_class.univ_class_details[0].classroom %></font>
       </h5>
-        <%= link_to "Add To Your Schedule", user_univ_class_path(@user, @univ_class), method: :patch, class: "btn btn-primary" %>
+      <% if @univ_class.user == @user %>
+        <%= link_to "Remove from Your Schedule", user_univ_class_path(@user, @univ_class, :extreme => 0), method: :delete, class: "btn btn-danger" %>
+      <% elsif @existing_classes.present? %>
+        <div class="alert alert-warning">
+          <strong>Warning!</strong> You alreay registered some classes on the same day and period. You should <%= link_to "check your schedule", user_path(@user)%>.
+        </div>
+        <p>Do you want to replace with existing classes? <%= link_to "Replace with Existing Clases", user_univ_class_path(@user, @univ_class, :extreme => 1), method: :patch, class: "btn btn-info"%> </p>
+        <p>Do you want to add the class with existing classes? <%= link_to "Add with Existing Clases", user_univ_class_path(@user, @univ_class, :extreme => 0), method: :patch, class: "btn btn-primary" %></p>
+      <% elsif @univ_class.user != @user %>
+        <%= link_to "Add To Your Schedule", user_univ_class_path(@user, @univ_class, :extreme => 0), method: :patch, class: "btn btn-primary" %>
+      <% end %>
   </div>
 </div>
