@@ -127,7 +127,7 @@
         if (period.replace(/\r?\n/g,"").trim() == "Select Period") {  $(".btn:first-child")[1].innerHTML = 'All' + '<span class="caret" style="margin-left: 10px"></span>'}
         var day = $(this).text();
         var day_convertor = {"Mon" : "月", "Tues" : "火", "Wed" : "水", "Thurs" : "木", "Fri" : "金", "Select Day" : "All"};
-        struct_link(day_convertor[day], period);
+        struct_link(day_convertor[day], period.reload);
     });
     
     function struct_link(day = "All", period = "All") {

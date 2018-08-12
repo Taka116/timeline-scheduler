@@ -64,6 +64,19 @@ class UnivClassesController < ApplicationController
         redirect_to root_path, notice: 'Successfully imported #{params[:file]}'
     end
     
+    def search
+        @user = User.find(params[:user_id])
+        @univ_class = UnivClass.find_by(subject_name: params[:subject_name])
+        if @univ_class
+            render :show
+        else
+            flash[:error] = "Couldn't find a class with name: "  + params[:subject_name]
+            redirect_to :root_path
+        end
+    end
+    
+    private
+    
     def update_params
         params
             .permit(:id, :user_id)
