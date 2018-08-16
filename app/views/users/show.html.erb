@@ -64,7 +64,7 @@
 <script>
   // javascriptでrailsオブジェクトは、hashになる！！json!
   gon.user_univ_class_details.forEach(function(univ_class_detail, index){
-    var search_id = univ_class_detail[0]["day"] + univ_class_detail[0]["period"];
+    var search_id = univ_class_detail["day"] + univ_class_detail["period"];
     var element = document.getElementById(search_id);
     var class_id = String(gon.user_univ_classes[index].id)
     var class_code = gon.user_univ_classes[index].class_code;
