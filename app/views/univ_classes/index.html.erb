@@ -41,7 +41,27 @@
                 </div>
             </div>
             <div class="dropdown-detailed-search">
-                <input type="button" onclick='"#"' value="Search!" class="btn btn-primary detailed-search" id="detailed-search-button"/>
+                <div class="dropdown-level">
+                    <div class="dropdown col-xs-12">
+                    	<button class="btn btn-default dropdown-toggle detailed-search" type="button" data-toggle="dropdown" data-target="period">
+                    	    Select Level<span class="caret" style="margin-left: 10px"></span>
+                    	</button>
+                    	<ul class="dropdown-menu" role="menu">
+                    		<li role="presentation"><a href="javascript:void(0)">Language</a></li>
+                    		<li role="presentation"><a href="javascript:void(0)">First Year Seminar I</a></li>
+                    		<li role="presentation"><a href="javascript:void(0)">First Year Seminar II</a></li>
+                    		<li role="presentation"><a href="javascript:void(0)">Intermediate Seminar</a></li>
+                    		<li role="presentation"><a href="javascript:void(0)">Introductory Course</a></li>
+                    		<li role="presentation"><a href="javascript:void(0)">Intermediate Course</a></li>
+                    		<li role="presentation"><a href="javascript:void(0)">Advanced Course</a></li>
+                    		<li role="presentation"><a href="javascript:void(0)">Other Course</a></li>
+                    		<li role="presentation"><a href="javascript:void(0)">All</a></li>
+                    	</ul>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown-detailed-search">
+                <input type="button" onclick='"#"' value="Search!" class="btn btn-primary detailed-search-button" id="detailed-search-button"/>
         	</div>
         </div>
     </div>
@@ -56,11 +76,12 @@
             <th>Classroom</th>
         </tr>
         <tbody>
-            <% if @period.nil? || @period.kind_of?(Array) %>
-                <h1 class="class-info-bar"><%= @day %></h1>
-            <% else %>
-                <h1 class="class-info-bar"><%= @day %> <span class="slash">|</span> <%= @period.to_i.ordinalize %> Period</h1>
-            <% end %>
+            <h1 class="class-info-bar">
+                <%= @sentence %>
+            </h1>
+            <h4 class="univ-class-counter">
+                Result: <%= @univ_classes.count %> classes sorted
+            </h4>
             <% @univ_classes.each do |univ_class| %>
                 <tr onclick='window.location="<%= user_univ_class_path(@user.id, univ_class.id) %>"', role="link">
                     <th><%= univ_class.class_code %></th>
@@ -86,17 +107,28 @@
 </div>
 
 <style>
+    .class-info-bar {
+        margin-bottom: 30px;
+        border-bottom: 3px double;
+    }
+    .univ-class-counter {
+        margin-bottom: 15px;
+        border-bottom: 1px solid;
+    }
     .panel.panel-info.detailed-search {
         width: 1100px !important;
     }
+    /*dropdown box*/
     .btn.btn-default.dropdown-toggle.detailed-search {
-        width: 300px !important;
+        width: 200px !important;
+        margin-left: 30px !important;
     }
-    .btn.btn-primary.detailed-search {
-        background-color: #f44336;
-        width: 200px;
+    .btn.btn-primary.detailed-search-button {
+        /*background-color: #f44336;*/
+        width: 150px;
         vertical-align: middle;
         margin-bottom: 27px;
+        margin-left: 80px;
     }
     .dropdown-detailed-search {
        display: inline-block !important;
@@ -106,35 +138,66 @@
         margin-left: 50px;
         margin-right: 50px;
     }
-    .class-info-bar {
-        margin-bottom: 30px;
-    }
 </style>
 
 <script>
+
+    $(".dropdown-level .dropdown .dropdown-menu li a").click(function(){
+        $(".btn:first-child")[2].innerHTML = $(this).text() + '<span class="caret" style="margin-left: 10px"></span>';
+        if ($(".btn:first-child")[0].innerHTML.split('<')[0].replace(/\r?\n/g,"").trim() == "Select Day") {  $(".btn:first-child")[0].innerHTML = 'All' + '<span class="caret" style="margin-left: 10px"></span>'}
+        var day = $(".btn:first-child")[0].innerHTML.split('<')[0];
+        if ($(".btn:first-child")[1].innerHTML.split('<')[0].replace(/\r?\n/g,"").trim() == "Select Period") {  $(".btn:first-child")[1].innerHTML = 'All' + '<span class="caret" style="margin-left: 10px"></span>'}
+        var period = $(".btn:first-child")[1].innerHTML.split('<')[0];
+        var level = $(".btn:first-child")[2].innerHTML.split('<')[0];
+        struct_link(day_convertor(day), period, level_convertor(level));
+    });
+
     $(".dropdown-period .dropdown .dropdown-menu li a").click(function(){
         $(".btn:first-child")[1].innerHTML = $(this).text() + '<span class="caret" style="margin-left: 10px"></span>';
-        var day = $(".btn:first-child")[0].innerHTML.split('<')[0];
-        if (day.replace(/\r?\n/g,"").trim() == "Select Day") {  $(".btn:first-child")[0].innerHTML = 'All' + '<span class="caret" style="margin-left: 10px"></span>'}
         var period = $(this).text();
-        var day_convertor = {"Mon" : "月", "Tues" : "火", "Wed" : "水", "Thurs" : "木", "Fri" : "金", "Select Day" : "All", "All" : "All"};
-        struct_link(day_convertor[day], period);
+        if ($(".btn:first-child")[0].innerHTML.split('<')[0].replace(/\r?\n/g,"").trim() == "Select Day") {  $(".btn:first-child")[0].innerHTML = 'All' + '<span class="caret" style="margin-left: 10px"></span>'}
+        var day = $(".btn:first-child")[0].innerHTML.split('<')[0];
+        if ($(".btn:first-child")[2].innerHTML.split('<')[0].replace(/\r?\n/g,"").trim() == "Select Level") { $(".btn:first-child")[2].innerHTML = 'All' + '<span class="caret" style="margin-left: 10px"></span>'}
+        var level = $(".btn:first-child")[2].innerHTML.split('<')[0];
+        struct_link(day_convertor(day), period, level_convertor(level));
     });
 
     $(".dropdown-day .dropdown .dropdown-menu li a").click(function(){
         $(".btn:first-child")[0].innerHTML = $(this).text() + '<span class="caret" style="margin-left: 10px"></span>';
-        var period = $(".btn:first-child")[1].innerHTML.split('<')[0];
-        if (period.replace(/\r?\n/g,"").trim() == "Select Period") {  $(".btn:first-child")[1].innerHTML = 'All' + '<span class="caret" style="margin-left: 10px"></span>'}
         var day = $(this).text();
-        var day_convertor = {"Mon" : "月", "Tues" : "火", "Wed" : "水", "Thurs" : "木", "Fri" : "金", "Select Day" : "All"};
-        struct_link(day_convertor[day], period.reload);
+        if ($(".btn:first-child")[1].innerHTML.split('<')[0].replace(/\r?\n/g,"").trim() == "Select Period") {  $(".btn:first-child")[1].innerHTML = 'All' + '<span class="caret" style="margin-left: 10px"></span>'}
+        var period = $(".btn:first-child")[1].innerHTML.split('<')[0];
+        if ($(".btn:first-child")[2].innerHTML.split('<')[0].replace(/\r?\n/g,"").trim() == "Select Level") { $(".btn:first-child")[2].innerHTML = 'All' + '<span class="caret" style="margin-left: 10px"></span>'}
+        var level = $(".btn:first-child")[2].innerHTML.split('<')[0];
+        struct_link(day_convertor(day), period, level_convertor(level) );
     });
     
-    function struct_link(day = "All", period = "All") {
+    function struct_link(day='All', period='All', level='All') {
         // ### SELECT PERIOD ###
-        var text = "/users/<%= @user.id %>/univ_classes?day="+day+"&period="+period
+        var text = "/users/<%= @user.id %>/univ_classes?day="+day+"&period="+period+"&level="+level
         document.getElementById("detailed-search-button").attributes[1].value =`window.location="${text}"`;
         console.log(text);
         return text;
+    }
+    
+    function day_convertor(day) {
+        var day_convertor = {"Mon" : "月", "Tues" : "火", "Wed" : "水", "Thurs" : "木", "Fri" : "金", "Select Day" : "All"};
+        return day_convertor[day]
+    }
+    
+    function level_convertor(level) {
+        var level_convertor = { "Language" : "language", 
+            "First Year Seminar I" : "first_year_seminar_I", 
+            "First Year Seminar II" : "first_year_seminar_II",
+            "Intermediate Seminar" : "intermidiate_seminar",
+            "Advanced Seminar" : "Advanced Seminar",
+            "Introductory Course" : "introductory_course",
+            "Intermediate Course" : "intermediate_course",
+            "Advanced Course" : "advanced_course",
+            "Other Course" : "other_course",
+            "All" : "All",
+            "Select All" : "All"
+        }
+        return level_convertor[level]
     }
 </script>

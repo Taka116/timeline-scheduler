@@ -4,7 +4,7 @@ class CreateUnivClasses < ActiveRecord::Migration[5.2]
       t.string :class_code, null: false
       t.string :subject_name, null: false
       t.string :professor, null: false
-      t.string :level, null: true
+      t.integer :level, null: true
       t.integer :number_of_credit, null: false
       t.string :class_url, null: false
       t.text :content_of_class, null: true

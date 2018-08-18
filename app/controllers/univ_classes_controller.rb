@@ -4,20 +4,34 @@ class UnivClassesController < ApplicationController
         @univ_classes = 
             UnivClass
                 .with_univ_class_details
-        if params[:day].present? && params[:period].present?
-            day = params[:day]=="All" ? ["月", "火", "水", "木", "金"] : params[:day]
-            period = params[:period]=="All" ? ["1", "2", "3", "4", "5"] : params[:period]
-            @univ_classes = UnivClass.with_same_day_and_period_without_user(day, period)
-            day_index =  ["月", "火", "水", "木", "金", "All"].index(params[:day])
-            @day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "All Classes"][day_index]
-            @period = period
-        elsif params[:day].present?
-            @univ_classes = UnivClass.with_same_day(params[:day])
-            day_index =  ["月", "火", "水", "木", "金"].index(params[:day])
-            @day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"][day_index]
+                
+        byebug
+
+        if params[:level].present? && params[:day].present? && params[:period].present?
+            # @univ_classes = UnivClass.where(level: params[:level])
+            days = params[:day]=="All" ? ["月", "火", "水", "木", "金"] : params[:day]
+            periods = params[:period]=="All" ? ["1", "2", "3", "4", "5"] : params[:period]
+            levels = params[:level] == "All" ? UnivClass.pluck(:level).uniq :  params[:level]
+            @univ_classes = UnivClass.with_same_day_and_period_without_user(days, periods, levels)
+
+            unless params[:day]=="All" then
+                day_index =  ["月", "火", "水", "木", "金", "All"].index(params[:day])
+                @day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "All Classes"][day_index]
+            end
+            unless params[:period]=="All" then
+                @period = params[:period].to_i.ordinalize+" Period"
+            end
+            unless params[:level]=="All" then
+                @level = params[:level].split('_').map {|ele| ele=="II" ? ele : ele.capitalize }.join(' ')
+            end
+            @sentence = [@day, @period, @level].compact.join(" | ")
+        elsif params[:level].present?
+            levels = params[:level] == "All" ? UnivClass.pluck(:level).uniq :  params[:level]
+            @univ_classes = UnivClass.where(level: levels)
+            @sentence = params[:level].split('_').map {|ele| ele=="II" ? ele : ele.capitalize }.join(' ')
         else
             @univ_classes = UnivClass.all
-            @day = "All Classes"
+            @sentence = "All Classes"
         end
     end
     
@@ -82,3 +96,18 @@ class UnivClassesController < ApplicationController
             .permit(:id, :user_id)
     end
 end
+
+
+
+#usable??
+        # elsif params[:day].present? && params[:period].present?
+        #     day = params[:day]=="All" ? ["月", "火", "水", "木", "金"] : params[:day]
+        #     period = params[:period]=="All" ? ["1", "2", "3", "4", "5"] : params[:period]
+        #     @univ_classes = UnivClass.with_same_day_and_period_without_user(day, period)
+        #     day_index =  ["月", "火", "水", "木", "金", "All"].index(params[:day])
+        #     @day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "All Classes"][day_index]
+        #     @period = period
+        # elsif params[:day].present?
+        #     @univ_classes = UnivClass.with_same_day(params[:day])
+        #     day_index =  ["月", "火", "水", "木", "金"].index(params[:day])
+        #     @day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"][day_index]

@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2018_08_07_011038) do
     t.string "class_code", null: false
     t.string "subject_name", null: false
     t.string "professor", null: false
-    t.string "level"
+    t.integer "level"
     t.integer "number_of_credit", null: false
     t.string "class_url", null: false
     t.text "content_of_class"
