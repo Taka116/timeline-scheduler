@@ -1,7 +1,8 @@
-# README
+# Timeline Builder
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This app is an online timeline maker for my university.
+Populated by classes scraped from an online sullabus, the app allows users to build their own timeline.
+The app is implemented with a muti-search function so it facilitates users to find what they are looking for.
 
 Things you may want to cover:
 
@@ -20,5 +21,3 @@ Things you may want to cover:
 * Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
-
-* ...
