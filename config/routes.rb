@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   root to: "univ_classes#index"
+  
+  resources :univ_classes, only: [:index]
 
   resources :users, only: [:show] do
     resources :univ_classes, only: [:index, :show, :update, :destroy] do

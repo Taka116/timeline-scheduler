@@ -18,7 +18,11 @@
         <nav class="navbar navbar-inverse">
           <div class="container-fluid">
             <div class="navbar-header">
-              <%= link_to "Timeline Scheduler", user_path(@user), class: "navbar-brand" %>
+              <% if @user.nil? %>
+                <%= link_to "Timeline Scheduler", univ_classes_path(@user), class: "navbar-brand" %>
+              <% else %>
+                <%= link_to "Timeline Scheduler", user_path(@user), class: "navbar-brand" %>
+              <% end %>
             </div>
             <ul class="nav navbar-nav">
               <!--<li class="active"><a href="#">Home</a></li>-->
@@ -29,39 +33,75 @@
                 </a>
                 <ul class='dropdown-menu'>
                   <li>
-                    <%= link_to "Language", user_univ_classes_path(@user, :level => 'language') %>
+                    <% if @user.nil? %>
+                      <%= link_to "Language", univ_classes_path(:level => 'language') %>
+                    <% else %>
+                      <%= link_to "Language", user_univ_classes_path(@user, :level => 'language') %>
+                    <% end %>
                   </li>
                   <li class='divider'></li>
                   <li>
-                    <%= link_to "First Year Seminar I", user_univ_classes_path(@user, :level => 'first_year_seminar_I') %>
+                    <% if @user.nil? %>
+                      <%= link_to "First Year Seminar I", univ_classes_path(:level => 'first_year_seminar_I') %>
+                    <% else %>
+                      <%= link_to "First Year Seminar I", user_univ_classes_path(@user, :level => 'first_year_seminar_I') %>
+                    <% end %>
                   </li>
                   <li class='divider'></li>
                   <li>
-                    <%= link_to "First Year Seminar II", user_univ_classes_path(@user, :level => 'first_year_seminar_II') %>
+                    <% if @user.nil? %>
+                      <%= link_to "First Year Seminar II", univ_classes_path(:level => 'first_year_seminar_I') %>
+                    <% else %>
+                      <%= link_to "First Year Seminar II", user_univ_classes_path(@user, :level => 'first_year_seminar_II') %>
+                    <% end %>
                   </li>
                   <li class='divider'></li>
                   <li>
-                    <%= link_to "Intermediate Seminar", user_univ_classes_path(@user, :level => 'intermidiate_seminar') %>
+                    <% if @user.nil? %>
+                      <%= link_to "Intermediate Seminar", univ_classes_path(:level => 'first_year_seminar_I') %>
+                    <% else %>
+                      <%= link_to "Intermediate Seminar", user_univ_classes_path(@user, :level => 'intermidiate_seminar') %>
+                    <% end %>
                   </li>
                   <li class='divider'></li>
                   <li>
-                    <%= link_to "Advanced Seminar", user_univ_classes_path(@user, :level => 'advanced_seminar') %>
+                    <% if @user.nil? %>
+                      <%= link_to "Advanced Seminar", univ_classes_path(:level => 'first_year_seminar_I') %>
+                    <% else %>
+                      <%= link_to "Advanced Seminar", user_univ_classes_path(@user, :level => 'advanced_seminar') %>
+                    <% end %>
                   </li>
                   <li class='divider'></li>
                   <li>
-                    <%= link_to "Introductory Course", user_univ_classes_path(@user, :level => 'introductory_course') %>
+                    <% if @user.nil? %>
+                      <%= link_to "Introductory Course", univ_classes_path(:level => 'first_year_seminar_I') %>
+                    <% else %>
+                      <%= link_to "Introductory Course", user_univ_classes_path(@user, :level => 'introductory_course') %>
+                    <% end %>
                   </li>
                   <li class='divider'></li>
                   <li>
-                    <%= link_to "Intermediate Course", user_univ_classes_path(@user, :level => 'intermidiate_course') %>
+                    <% if @user.nil? %>
+                      <%= link_to "Intermediate Course", univ_classes_path(:level => 'first_year_seminar_I') %>
+                    <% else %>
+                      <%= link_to "Intermediate Course", user_univ_classes_path(@user, :level => 'intermidiate_course') %>
+                    <% end %>
                   </li>
                   <li class='divider'></li>
                   <li>
-                    <%= link_to "Advanced Course", user_univ_classes_path(@user, :level => 'advanced_course') %>
+                    <% if @user.nil? %>
+                      <%= link_to "Advanced Course", univ_classes_path(:level => 'first_year_seminar_I') %>
+                    <% else %>
+                      <%= link_to "Advanced Course", user_univ_classes_path(@user, :level => 'advanced_course') %>
+                    <% end %>
                   </li>
                   <li class='divider'></li>
                   <li>
-                    <%= link_to "Other Course", user_univ_classes_path(@user, :level => 'other_course') %>
+                    <% if @user.nil? %>
+                      <%= link_to "Advanced Course", univ_classes_path(:level => 'first_year_seminar_I') %>
+                    <% else %>
+                      <%= link_to "Other Course", user_univ_classes_path(@user, :level => 'other_course') %>
+                    <% end %>
                   </li>
                   <li class='divider'></li>
                 </ul>
@@ -107,7 +147,11 @@
       
       $('#searchDropdownBox').on('select2:select', function (e) {
           var data = e.params.data;
-          document.getElementById("search-by-subject-button").attributes[1].value = `window.location="/users/<%= @user.id %>/univ_classes/search?subject_name=${data.text}"`;
+          <% if @user.present? %>
+            document.getElementById("search-by-subject-button").attributes[1].value = `window.location="/users/<%= @user.id %>/univ_classes/search?subject_name=${data.text}"`;
+          <% else %>
+            document.getElementById("search-by-subject-button").attributes[1].value = `window.location="univ_classes/search?subject_name=${data.text}"`;
+          <% end %>
           console.log(document.getElementById("search-by-subject-button").attributes[1].value);
       });
 

@@ -1,13 +1,14 @@
 class UnivClassesController < ApplicationController
     def index
-        @user = User.find(params[:user_id])
+        @user = params[:user_id] ? User.find(params[:user_id]) : nil
         @univ_classes = 
             UnivClass
                 .with_univ_class_details
-                
-        byebug
-
-        if params[:level].present? && params[:day].present? && params[:period].present?
+        
+        if @user == nil
+            @univ_classes = UnivClass.all
+            @sentence = "All Classes"
+        elsif params[:level].present? && params[:day].present? && params[:period].present?
             # @univ_classes = UnivClass.where(level: params[:level])
             days = params[:day]=="All" ? ["月", "火", "水", "木", "金"] : params[:day]
             periods = params[:period]=="All" ? ["1", "2", "3", "4", "5"] : params[:period]

@@ -2,33 +2,106 @@
   <div class="panel-heading">
     <h3>Class Information</h3>
   </div>
-    <div class="panel-body text-center">
-      <h1><%= @univ_class.subject_name %></h1>
-      <h5>
-        Course Code: <font size=4><%= @univ_class.class_code %></font>
+    <div class="panel-bodys">
+      <h1 class="class-detail-info"><%= @univ_class.subject_name %></h1>
+      <h5 class="class-detail-info-s">
+        Level:
+          <font style="padding-left: 90px" size=4><%= @univ_class.level.split('_').map {|ele| ele=="II" ? ele : ele.capitalize }.join(' ') %></font>
       </h5>
-      <h5>
-        Professor:  <font size=4><%= @univ_class.professor %></font>
+      <h5 class="class-detail-info-s">
+        Professor:  <font  style="padding-left: 60px" size=4><%= @univ_class.professor %></font>
       </h5>
-      <h5>
+      <h5 class="class-detail-info-s">
         Day & Period:  
         <% @univ_class.univ_class_details.pluck(:day, :period).each do |detail| %>
-            <font size=4><%= detail[0]%>, <%= detail[1] %></font>
+            <font style="padding-left: 40px" size=4><%= ["Mon", "Tues", "Wed", "Thurs", "Fri"][ ["月", "火", "水", "木", "金"].index(detail[0]) ] %>, <%= detail[1] %></font>
         <% end %>
       </h5>
-      <h5>
-        Classroom:  <font size=4><%= @univ_class.univ_class_details[0].classroom %></font>
+      <h5 class="class-detail-info-s">
+        Classroom:  <font style="padding-left: 55px" size=4><%= @univ_class.univ_class_details[0].classroom %></font>
       </h5>
-      <% if @univ_class.user == @user %>
-        <%= link_to "Remove from Your Schedule", user_univ_class_path(@user, @univ_class, :extreme => 0), method: :delete, class: "btn btn-danger" %>
-      <% elsif @existing_classes.present? %>
-        <div class="alert alert-warning">
-          <strong>Warning!</strong> You alreay registered some classes on the same day and period. You should <%= link_to "check your schedule", user_path(@user)%>.
+      <h5 class="class-detail-info-s">
+        Number of Credit:  <font style="padding-left: 15px" size=4><%= @univ_class.number_of_credit %></font>
+      </h5>
+      <h5 class="class-detail-info-s class-detail-info-paragraph">
+        Explanation:  <font style="padding-left: 55px" size=4><p class="class-detail-info-s"><%= @univ_class.content_of_class %><p></p></font>
+      </h5>
+      <h5 class="class-detail-info-evaluation-beginning"> Evaluation: </h5>
+      <h5 class="class-detail-info-evaluation">
+        Exam:  <font style="padding-left: 85px" size=4><p class="class-detail-info-evaluation"><%= @univ_class.exam_evaluation&.remove("試験:") %></p></font>
+      </h5>
+      <h5 class="class-detail-info-evaluation">
+        Essay: <font style="padding-left: 55px" size=4><p class="class-detail-info-evaluation"><%= @univ_class.report_evaluation %></p></font>
         </div>
-        <p>Do you want to replace with existing classes? <%= link_to "Replace with Existing Clases", user_univ_class_path(@user, @univ_class, :extreme => 1), method: :patch, class: "btn btn-info"%> </p>
-        <p>Do you want to add the class with existing classes? <%= link_to "Add with Existing Clases", user_univ_class_path(@user, @univ_class, :extreme => 0), method: :patch, class: "btn btn-primary" %></p>
-      <% elsif @univ_class.user != @user %>
-        <%= link_to "Add To Your Schedule", user_univ_class_path(@user, @univ_class, :extreme => 0), method: :patch, class: "btn btn-primary" %>
-      <% end %>
+      </h5>
+      <h5 class="class-detail-info-evaluation">
+        Attendence: <font style="padding-left: 55px" size=4><p class="class-detail-info-evaluation"><%= @univ_class.normal_evaluation %></p></font>
+      </h5>
+      <h5 class="class-detail-info-evaluation">
+        Other: <font style="padding-left: 55px" size=4><p class="class-detail-info-evaluation"><%= @univ_class.other_evaluation&.remove("備考・関連URL") %></p></font>
+      </h5>
+      <h5 class="class-detail-info-class_url">
+        <a href="<%= @univ_class.class_url %>", target="right">Jump to Class Website</a>
+      </h5>
+      <div class="class-detail-info-button">
+        <% if @univ_class.user == @user %>
+          <%= link_to "Remove from Your Schedule", user_univ_class_path(@user, @univ_class, :extreme => 0), method: :delete, class: "btn btn-danger class-detail-info" %>
+        <% elsif @existing_classes.present? %>
+          <div class="alert alert-warning">
+            <strong>Warning!</strong> You alreay registered some classes on the same day and period. You should <%= link_to "check your schedule", user_path(@user)%>.
+          </div>
+          <p>Do you want to replace with existing classes? <%= link_to "Replace with Existing Clases", user_univ_class_path(@user, @univ_class, :extreme => 1), method: :patch, class: "btn btn-info"%> </p>
+          <p>Do you want to add the class with existing classes? <%= link_to "Add with Existing Clases", user_univ_class_path(@user, @univ_class, :extreme => 0), method: :patch, class: "btn btn-primary" %></p>
+        <% elsif @univ_class.user != @user %>
+          <%= link_to "Add To Your Schedule", user_univ_class_path(@user, @univ_class, :extreme => 0), method: :patch, class: "btn btn-primary class-detail-info" %>
+        <% end %>
+      </div>
   </div>
 </div>
+
+<style>
+.class-detail-info {
+  text-align: center;
+  border-bottom: thin inset powderblue;
+}
+.class-detail-info-s {
+  margin-left: 200px;
+  padding-top: 10px;
+}
+.class-detail-info-paragraph {
+  display: block;
+}
+p.class-detail-info-s {
+  margin-left: 30px;
+  margin-right: 100px;
+}
+p.class-detail-info-evaluation {
+  margin-left: 30px;
+  margin-right: 100px;
+  padding-top: 10px;
+}
+.class-detail-info-evaluation-beginning {
+  margin-left: 200px;
+  margin-top: -20px;
+}
+.class-detail-info-evaluation {
+  margin-left: 220px;
+  margin-bottom: -15px;
+}
+.class-detail-info-class_url {
+  margin-left: 200px;
+  padding-top: 30px;
+}
+.btn.btn-danger.class-detail-info {
+  text-align: center;
+}
+.btn.btn-primary.class-detail-info {
+  text-align: center;
+}
+
+.class-detail-info-button {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+</style>

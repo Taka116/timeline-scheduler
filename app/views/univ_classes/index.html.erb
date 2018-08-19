@@ -80,10 +80,18 @@
                 <%= @sentence %>
             </h1>
             <h4 class="univ-class-counter">
-                Result: <%= @univ_classes.count %> classes sorted
+                <% if @univ_classes.count > 1 %>
+                    Result: <%= @univ_classes.count %> classes found
+                <% else %>
+                    Result: <%= @univ_classes.count %> class found
+                <% end %>
             </h4>
             <% @univ_classes.each do |univ_class| %>
-                <tr onclick='window.location="<%= user_univ_class_path(@user.id, univ_class.id) %>"', role="link">
+                <% if @user.present? %>
+                    <tr onclick='window.location="<%= user_univ_class_path(@user.id, univ_class.id) %>"', role="link">
+                <% else %>
+                    <tr>
+                <% end %>
                     <th><%= univ_class.class_code %></th>
                     <th><%= univ_class.subject_name %></th>
                     <th><%= univ_class.professor %></th>
@@ -174,10 +182,15 @@
     
     function struct_link(day='All', period='All', level='All') {
         // ### SELECT PERIOD ###
-        var text = "/users/<%= @user.id %>/univ_classes?day="+day+"&period="+period+"&level="+level
-        document.getElementById("detailed-search-button").attributes[1].value =`window.location="${text}"`;
-        console.log(text);
-        return text;
+        <% if @user.nil? %>
+            var text = "#"
+            return text;
+        <% else %>
+            var text = "/users/<%= @user.id %>/univ_classes?day="+day+"&period="+period+"&level="+level
+            document.getElementById("detailed-search-button").attributes[1].value =`window.location="${text}"`;
+            console.log(text);
+            return text;
+        <% end %>
     }
     
     function day_convertor(day) {

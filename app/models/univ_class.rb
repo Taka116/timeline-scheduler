@@ -8,10 +8,10 @@ class UnivClass < ApplicationRecord
         language
         first_year_seminar_I
         first_year_seminar_II
-        intermidiate_seminar
+        intermediate_seminar
         advanced_seminar
         introductory_course
-        intermidiate_course 
+        intermediate_course 
         advanced_course
         other_course
     ]
@@ -29,7 +29,7 @@ class UnivClass < ApplicationRecord
             if univ_class.nil?
                 ##univ_class, evaluation
                 if row["evaluation_system"] == nil
-                    exam_evaluation, report_evaluation, normal_evaluation, other_evaluation = nil, nil, nil, nil
+                    exam_evaluation, report_evaluation, normal_evaluation, other_evaluation = "0%", "0%", "0%", "0%"
                 else
                     evaluation_string = row["evaluation_system"].delete("''[],")
                     evaluation_string.include?("試験:") ? exam_position = evaluation_string.index("試験:") : exam_position = nil
@@ -40,40 +40,48 @@ class UnivClass < ApplicationRecord
                     else
                         other_position = evaluation_string.index('備考・関連URL')
                     end
-    
-                    if !exam_position.nil? && !report_position.nil?
-                        exam_evaluation = evaluation_string[ exam_position .. report_position-1]
-                        if !report_position.nil? && !normal_position.nil?
-                            report_evaluation = evaluation_string[ report_position .. normal_position-1 ]
-                            if !normal_position.nil? && !other_position.nil?
-                                normal_evaluation = evaluation_string[ normal_position .. other_position-1 ]
-                                other_position.nil? ? other_evaluation = nil : other_evaluation = evaluation_string[ other_position .. evaluation_string.length ]
+                    
+                    if exam_position
+                        if report_position
+                            exam_evaluation = evaluation_string[ exam_position+4 .. report_position-2]
+                            if normal_position
+                                report_evaluation = evaluation_string[ report_position+6 .. normal_position-2]
+                                if other_position
+                                    normal_evaluation = evaluation_string[ normal_position+7 .. other_position-2]
+                                    other_evaluation = other_evaluation.present? ? evaluation_string[ other_position+5 .. evaluation_string.length] : "0%"
+                                end
                             else
-                                normal_evaluation = nil
-                                other_position.nil? ? other_evaluation = nil : other_evaluation = evaluation_string[ other_position .. evaluation_string.length ]
+                                normal_evaluation = "0%"
+                                other_evaluation = other_evaluation.present? ? evaluation_string[ other_position+5 .. evaluation_string.length] : "0%"
                             end
-                        elsif !report_position.nil? && !other_position.nil?
-                            report_evaluation = evaluation_string[ report_position .. other_position-1 ]
-                            normal_evaluation = nil
-                            other_position.nil? ? other_evaluation = nil : other_evaluation = evaluation_string[ other_position .. evaluation_string.length ]
-                        end
-                    elsif !exam_position.nil? && !normal_position.nil?
-                        exam_evaluation = evaluation_string[ exam_position .. normal_position-1]
-                        if !normal_position && !other_position.nil?
-                            report_evaluation = nil
-                            normal_evaluation = evaluation_string[ normal_position .. other_position-1 ]
-                            other_evaluation = evaluation_string[ other_position .. evaluation_string.length ]
                         else
-                            report_evaluation, normal_evaluation = nil, nil
-                            other_position.nil? ? other_evaluation = nil : other_evaluation = evaluation_string[ other_position .. evaluation_string.length ]
+                            report_evaluation, normal_evaluation = "0%", "0%"
+                            other_evaluation = other_evaluation.present? ? evaluation_string[ other_position+5 .. evaluation_string.length] : "0%"
                         end
-                    elsif !exam_position.nil? && !other_position.nil?
-                        exam_evaluation = evaluation_string[ exam_position .. other_position-1]
-                        report_evaluation, normal_evaluation = nil, nil
-                        other_position.nil? ? other_evaluation = nil : other_evaluation = evaluation_string[ other_position .. evaluation_string.length ]
+                    elsif report_position
+                        exam_evaluation = "0%"
+                        if normal_position
+                            report_evaluation = evaluation_string[ report_position+6 .. normal_position-2]
+                            if other_position
+                                normal_evaluation = evaluation_string[ normal_position+7 .. other_position-2]
+                                other_evaluation = other_evaluation.present? ? evaluation_string[ other_position+5 .. evaluation_string.length] : "0%"
+                            end
+                        else
+                            normal_evaluation = "0%"
+                            other_evaluation = other_evaluation.present? ? evaluation_string[ other_position+5 .. evaluation_string.length] : "0%"
+                        end
+                    elsif normal_position
+                        exam_evaluation, report_evaluation = "0%", "0%"
+                        if other_position
+                            normal_evaluation = evaluation_string[ normal_position+7 .. other_position-2]
+                            other_evaluation = other_evaluation.present? ? evaluation_string[ other_position+5 .. evaluation_string.length] : "0%"
+                        end
+                    elsif other_position
+                        exam_evaluation = evaluation_string[ exam_position+4 .. other_position-2]
+                        report_evaluation, normal_evaluation = "0%", "0%"
                     else
-                        exam_evaluation, report_evaluation, normal_evaluation = nil, nil, nil
-                        other_position.nil? ? other_evaluation = nil : other_evaluation = evaluation_string[ other_position .. evaluation_string.length ]
+                        exam_evaluation, report_evaluation, normal_evaluation = "0%", "0%", "0%"
+                        other_evaluation = other_evaluation.present? ? evaluation_string[ other_position+5 .. evaluation_string.length] : "0%"
                     end
                 end
                 
@@ -86,11 +94,11 @@ class UnivClass < ApplicationRecord
                 elsif ["基礎演習IIＡ", "基礎演習IIＢ"].include?(row["level"])
                     level = "first_year_seminar_II"
                 elsif row["level"] == "中級演習"
-                    level = "intermidiate_seminar"
+                    level = "intermediate_seminar"
                 elsif row["level"] == "上級演習"
                     level = "advanced_seminar"
                 elsif row["level"] == "中級科目"
-                    level = "intermidiate_course"
+                    level = "intermediate_course"
                 elsif row["level"] == "上級科目"
                     level = "advanced_course"
                 else
