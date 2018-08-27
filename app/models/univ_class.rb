@@ -3,6 +3,7 @@ class UnivClass < ApplicationRecord
     
     belongs_to :user, optional: true
     has_many :univ_class_details, dependent: :destroy
+    has_many :likes, dependent: :destroy
     
     enum level: %i[
         language

@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_07_011038) do
+ActiveRecord::Schema.define(version: 2018_08_19_054937) do
+
+  create_table "likes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "univ_class_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["univ_class_id"], name: "index_likes_on_univ_class_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
 
   create_table "univ_class_details", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "univ_class_id"
@@ -47,6 +56,8 @@ ActiveRecord::Schema.define(version: 2018_08_07_011038) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "likes", "univ_classes"
+  add_foreign_key "likes", "users"
   add_foreign_key "univ_class_details", "univ_classes"
   add_foreign_key "univ_classes", "users"
 end

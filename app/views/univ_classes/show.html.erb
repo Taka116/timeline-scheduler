@@ -1,5 +1,12 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
+    <% if !@univ_class.likes&.pluck(:user_id).include?(@user.id) %>
+      <h3>Class Information</h3>
+      <%= link_to user_univ_class_likes_path(@user, @univ_class), method: :post,  id: "like-button", remote: true do %>
+      aaaaaa
+        <span class="glyphicon glyphicon-star" aria-hidden="true" style="yellow"></span>
+      <% end %>
+    <% end %>
     <h3>Class Information</h3>
   </div>
     <div class="panel-bodys">
@@ -52,7 +59,8 @@
           </div>
           <p>Do you want to replace with existing classes? <%= link_to "Replace with Existing Clases", user_univ_class_path(@user, @univ_class, :extreme => 1), method: :patch, class: "btn btn-info"%> </p>
           <p>Do you want to add the class with existing classes? <%= link_to "Add with Existing Clases", user_univ_class_path(@user, @univ_class, :extreme => 0), method: :patch, class: "btn btn-primary" %></p>
-        <% elsif @univ_class.user != @user %>
+         <!--elsif @univ_class.user != @user %>-->
+        <% else %>
           <%= link_to "Add To Your Schedule", user_univ_class_path(@user, @univ_class, :extreme => 0), method: :patch, class: "btn btn-primary class-detail-info" %>
         <% end %>
       </div>
