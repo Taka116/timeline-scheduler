@@ -8,7 +8,6 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= favicon_link_tag 'app_logo.png' %>
     <%= Gon::Base.render_data %>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
@@ -103,8 +102,10 @@
                       <%= link_to "Other Course", user_univ_classes_path(@user, :level => 'other_course') %>
                     <% end %>
                   </li>
-                  <li class='divider'></li>
                 </ul>
+              </li>
+              <li>
+                <%= link_to "Your List", user_likes_path(@user), method: :get%>
               </li>
             </ul>
             <form class="navbar-form navbar-left" action="/action_page.php">

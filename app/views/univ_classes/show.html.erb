@@ -1,13 +1,19 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
-    <% if !@univ_class.likes&.pluck(:user_id).include?(@user.id) %>
+    <div class="favorite-class">
       <h3>Class Information</h3>
-      <%= link_to user_univ_class_likes_path(@user, @univ_class), method: :post,  id: "like-button", remote: true do %>
-      aaaaaa
-        <span class="glyphicon glyphicon-star" aria-hidden="true" style="yellow"></span>
+    </div>
+    <div class="favorite-class">
+      <% if @univ_class.likes&.pluck(:user_id).include?(@user.id) %>
+        <%= link_to user_univ_class_likes_path(@user, @univ_class), method: :delete, id: "like-button-delete", remote: true do %>
+          <i class="fas fa-star"></i><span style="font-size:14px;color:yellow;margin-left:10px">Remove from Your List!</span>
+        <% end %>
+      <% else %>
+        <%= link_to user_univ_class_likes_path(@user, @univ_class), method: :post, id: "like-button-post", remote: true do %>
+          <i class="far fa-star"></i><span style="font-size:14px;color:yellow;margin-left:10px">Add to Your List!</span>
+        <% end %>
       <% end %>
-    <% end %>
-    <h3>Class Information</h3>
+    </div>
   </div>
     <div class="panel-bodys">
       <h1 class="class-detail-info"><%= @univ_class.subject_name %></h1>
@@ -67,6 +73,46 @@
   </div>
 </div>
 
+<script>
+var user_id = gon.user_id
+var univ_class_id = gon.univ_class_id
+$(function() {
+  return $("#like-button-post").click(function() {
+    return $.ajax({
+      url: "/users/"+user_id+"/univ_classes/"+univ_class_id+"/likes",
+      type: 'post',
+      dataType: 'json',
+      async: true
+    }).done(function(response) {
+      location.reload();
+      // var i, j, ref, results;
+      // $("#user").append("<tr><th>名前</th><th>年齢</th></tr>");
+      // results = [];
+      // for (i = j = 0, ref = response.length; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+      //   results.push($("#user").append("<tr><td>" + response[i].name + "</td><td>" + response[i].age + "</td></tr>"));
+      // }
+      // return results;
+    }).fail(function(response) {
+      return alert('fail');
+    });
+  });
+});
+$(function() {
+  return $("#like-button-delete").click(function() {
+    return $.ajax({
+      url: "/users/"+user_id+"/univ_classes/"+univ_class_id+"/likes",
+      type: 'delete',
+      dataType: 'json',
+      async: true
+    }).done(function(response) {
+      location.reload();
+    }).fail(function(response) {
+      return alert('fail');
+    });
+  });
+});
+</script>
+
 <style>
 .class-detail-info {
   text-align: center;
@@ -111,5 +157,18 @@ p.class-detail-info-evaluation {
   text-align: center;
   margin-top: 30px;
   margin-bottom: 30px;
+}
+.fas {
+  color: yellow;
+  font-size: 15px;
+  margin-left: 50px;
+}
+.far {
+  color: yellow;
+  font-size: 15px;
+  margin-left: 50px;
+}
+.favorite-class {
+  display: inline-block;
 }
 </style>

@@ -1,14 +1,11 @@
 class UnivClassesController < ApplicationController
     def index
-        @user = params[:user_id] ? User.find(params[:user_id]) : nil
+        @user = User.find(params[:user_id])
         @univ_classes = 
             UnivClass
                 .with_univ_class_details
-        
-        if @user == nil
-            @univ_classes = UnivClass.all
-            @sentence = "All Classes"
-        elsif params[:level].present? && params[:day].present? && params[:period].present?
+
+        if params[:level].present? && params[:day].present? && params[:period].present?
             # @univ_classes = UnivClass.where(level: params[:level])
             days = params[:day]=="All" ? ["月", "火", "水", "木", "金"] : params[:day]
             periods = params[:period]=="All" ? ["1", "2", "3", "4", "5"] : params[:period]
@@ -59,6 +56,8 @@ class UnivClassesController < ApplicationController
     def show
         @user = User.find(params[:user_id])
         @univ_class = UnivClass.find(params[:id])
+        gon.user_id = @user.id
+        gon.univ_class_id = @univ_class.id
         @existing_classes = UnivClass.with_same_day_and_period_with_user(@user.id, @univ_class.univ_class_details.pluck(:day), @univ_class.univ_class_details.pluck(:period))
     end
 

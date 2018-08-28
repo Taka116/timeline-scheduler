@@ -4,8 +4,9 @@ Rails.application.routes.draw do
   resources :univ_classes, only: [:index]
 
   resources :users, only: [:show] do
+    resource :likes, only: [:show]
     resources :univ_classes, only: [:index, :show, :update, :destroy] do
-      resources :likes, only: [:create, :destroy]
+      resource :likes, only: [:create, :destroy]
       collection do
         get :search
       end
