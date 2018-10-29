@@ -73,10 +73,10 @@ class UnivClassesController < ApplicationController
         end
     end
     
-    def import
-        UnivClass.import(params[:file])
-        redirect_to root_path, notice: 'Successfully imported #{params[:file]}'
-    end
+    # def import
+    #     UnivClass.import(params[:file])
+    #     redirect_to root_path, notice: 'Successfully imported #{params[:file]}'
+    # end
     
     def search
         @user = User.find(params[:user_id])

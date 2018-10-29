@@ -5,16 +5,16 @@ class UnivClass < ApplicationRecord
     has_many :univ_class_details, dependent: :destroy
     has_many :likes, dependent: :destroy
     
-    enum level: %i[
-        language
-        first_year_seminar_I
-        first_year_seminar_II
-        intermediate_seminar
-        advanced_seminar
-        introductory_course
-        intermediate_course 
-        advanced_course
-        other_course
+    enum level: [
+        "language",
+        "first_year_seminar_I",
+        "first_year_seminar_II",
+        "intermediate_seminar",
+        "advanced_seminar",
+        "introductory_course",
+        "intermediate_course",
+        "advanced_course",
+        "other_course",
     ]
     
     validates :class_code, uniqueness: { scope: [:subject_name, :professor] }
