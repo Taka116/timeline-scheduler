@@ -1,4 +1,6 @@
 
+User.create(first_name: "Nobody")
+
 require 'csv'
 CSV.foreach("db/class.csv", headers: true) do |row|
     univ_class = UnivClass.where(class_code: row["class_code"], subject_name: row["subject_name"], professor: row["professor"]).first
