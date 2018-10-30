@@ -1,0 +1,7 @@
+$(function() {
+    $(document).on("custom:like_button_post", function() {
+       $('#like-button').html("<%= escape_javascript(render(partial: 'like_post', locals: {user: @user, univ_class: @univ_class})) %>");
+    });
+});
+
+$(document).trigger("custom:like_button_post");

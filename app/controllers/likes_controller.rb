@@ -3,21 +3,36 @@ class LikesController < ApplicationController
     before_action :set_univ_class, only: [:create, :destroy]
     
     def show
-        @likes = Like.where(user_id: @user.id)
+        likes = Like.where(user_id: @user.id)
+        @univ_classes = likes.map(&:univ_class)
     end
 
     def create
         @like = @user.likes.new(univ_class_id: @univ_class.id)
-        @like.save!
-        @user = @user.reload
-        @univ_class = @univ_class.reload
+        if @like.save
+            @user = @user.reload
+            @univ_class = @univ_class.reload
+            render :create, format: "js"
+        else
+            render json: { errors: @like.errors }, status: :unprocessable_entity
+        end
     end
     
     def destroy
         @like = Like.find_by(user_id: @user.id, univ_class_id: @univ_class.id)
-        @like.destroy
-        @user = @user.reload
-        @univ_class = @univ_class.reload
+        respond_to do |format|
+            if @like.destroy
+                likes = Like.where(user_id: @user.id)
+                @user = @user.reload
+                likes = Like.where(user_id: @user.id)
+                @univ_classes = likes.map(&:univ_class)
+                @univ_class = @univ_class.reload
+                format.html { render :show }
+                format.js { render :destroy }
+            else
+                render json: { errors: @like.errors }, status: :unprocessable_entity
+            end
+        end
     end
     
     private

@@ -38,7 +38,7 @@ class UnivClassesController < ApplicationController
         @univ_class = UnivClass.find(params[:id])
         extreme = params[:extreme]
         if extreme == "1"
-            existing_classes = UnivClass.with_same_day_and_period(@user.id, @univ_class.univ_class_details.pluck(:day), @univ_class.univ_class_details.pluck(:period))
+            existing_classes = UnivClass.with_same_day_and_period_with_user(@user.id, @univ_class.univ_class_details.pluck(:day), @univ_class.univ_class_details.pluck(:period))
             existing_classes.update_all(user_id: nil)
             @univ_class.update(update_params)
             flash[:success] = "Successfully Added to Your Time Schedule"

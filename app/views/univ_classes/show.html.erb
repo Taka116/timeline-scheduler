@@ -4,15 +4,17 @@
       <h3>Class Information</h3>
     </div>
     <div class="favorite-class">
-      <% if @univ_class.likes&.pluck(:user_id).include?(@user.id) %>
-        <%= link_to user_univ_class_likes_path(@user, @univ_class), method: :delete, id: "like-button-delete", remote: true do %>
-          <i class="fas fa-star"></i><span style="font-size:14px;color:yellow;margin-left:10px">Remove from Your List!</span>
+      <div id="like-button">
+        <% if @univ_class.likes&.pluck(:user_id).include?(@user.id) %>
+          <%= link_to user_univ_class_likes_path(@user, @univ_class), method: :delete, id: "like-button-delete", remote: true do %>
+            <i class="fas fa-star"></i><span style="font-size:14px;color:yellow;margin-left:10px">Remove from Your List!</span>
+          <% end %>
+        <% else %>
+          <%= link_to user_univ_class_likes_path(@user, @univ_class), method: :post, remote:true, id: "like-button-post" do %>
+            <i class="far fa-star"></i><span style="font-size:14px;color:yellow;margin-left:10px">Add to Your List!</span>
+          <% end %>
         <% end %>
-      <% else %>
-        <%= link_to user_univ_class_likes_path(@user, @univ_class), method: :post, id: "like-button-post", remote: true do %>
-          <i class="far fa-star"></i><span style="font-size:14px;color:yellow;margin-left:10px">Add to Your List!</span>
-        <% end %>
-      <% end %>
+      </div>
     </div>
   </div>
     <div class="panel-bodys">
@@ -27,7 +29,7 @@
       <h5 class="class-detail-info-s">
         Day & Period:  
         <% @univ_class.univ_class_details.pluck(:day, :period).each do |detail| %>
-            <font style="padding-left: 40px" size=4><%= ["Mon", "Tues", "Wed", "Thurs", "Fri"][ ["月", "火", "水", "木", "金"].index(detail[0]) ] %>, <%= detail[1] %></font>
+            <font style="padding-left: 40px" size=4><%= ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"][ ["月", "火", "水", "木", "金", "土"].index(detail[0]) ] %>, <%= detail[1] %></font>
         <% end %>
       </h5>
       <h5 class="class-detail-info-s">
@@ -72,46 +74,6 @@
       </div>
   </div>
 </div>
-
-<script>
-var user_id = gon.user_id
-var univ_class_id = gon.univ_class_id
-$(function() {
-  return $("#like-button-post").click(function() {
-    return $.ajax({
-      url: "/users/"+user_id+"/univ_classes/"+univ_class_id+"/likes",
-      type: 'post',
-      dataType: 'json',
-      async: true
-    }).done(function(response) {
-      location.reload();
-      // var i, j, ref, results;
-      // $("#user").append("<tr><th>名前</th><th>年齢</th></tr>");
-      // results = [];
-      // for (i = j = 0, ref = response.length; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
-      //   results.push($("#user").append("<tr><td>" + response[i].name + "</td><td>" + response[i].age + "</td></tr>"));
-      // }
-      // return results;
-    }).fail(function(response) {
-      return alert('fail');
-    });
-  });
-});
-$(function() {
-  return $("#like-button-delete").click(function() {
-    return $.ajax({
-      url: "/users/"+user_id+"/univ_classes/"+univ_class_id+"/likes",
-      type: 'delete',
-      dataType: 'json',
-      async: true
-    }).done(function(response) {
-      location.reload();
-    }).fail(function(response) {
-      return alert('fail');
-    });
-  });
-});
-</script>
 
 <style>
 .class-detail-info {

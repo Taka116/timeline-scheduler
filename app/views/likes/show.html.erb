@@ -1,3 +1,56 @@
-<% @likes.map do |like| %>
-    <p><%= like.user_id %></p>
-<% end %>
+<table class="table table-hover">
+    <h1 class="your-list-info-bar">
+        <%= "#{@user.first_name}'s list" %>
+    </h1>
+    <thead>
+        <tr>
+            <th>Course Code</th>
+            <th>Subject Name</th>
+            <th>Professor</th>
+            <th>Day & Period</th>
+            <th>Classroom</th>
+        </tr>
+        <tbody>
+            <h1 class="class-info-bar">
+                <%= @sentence %>
+            </h1>
+            <h4 class="univ-class-counter">
+                <% if @univ_classes.count > 1 %>
+                    Result: <%= @univ_classes.count %> classes found
+                <% else %>
+                    Result: <%= @univ_classes.count %> class found
+                <% end %>
+            </h4>
+            <% @univ_classes.each do |univ_class| %>
+                <% if @user.present? %>
+                    <tr onclick='window.location="<%= user_univ_class_path(@user.id, univ_class.id) %>"', role="link">
+                <% else %>
+                    <tr>
+                <% end %>
+                    <th><%= univ_class.class_code %></th>
+                    <th><%= univ_class.subject_name %></th>
+                    <th><%= univ_class.level %></th>
+                    <th><%= univ_class.professor %></th>
+                    <th>
+                        <% univ_class.univ_class_details.pluck(:day, :period).each do |detail| %>
+                            <h5><%= detail[0]%>, <%= detail[1] %></h5>
+                        <% end %>
+                    </th>
+                    <th>
+                        <%= link_to "Add", user_univ_class_path(@user, univ_class, :extreme => 0), method: :patch, class: "btn btn-primary class-detail-info" %>
+                    </th>
+                    <th>
+                        <%= link_to "Delete", user_univ_class_likes_path(@user, univ_class), method: :delete, class: "btn btn-danger class-detail-info" %>
+                    </th>
+                </tr>
+            <% end %>
+        </tbody>
+    </thead>
+</table>
+
+<style>
+.your-list-info-bar {
+    margin-bottom: 30px;
+    border-bottom: 3px double;
+}
+</style>

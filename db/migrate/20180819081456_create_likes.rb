@@ -5,5 +5,6 @@ class CreateLikes < ActiveRecord::Migration[5.2]
       t.belongs_to :univ_class, null: false, foreign_key: true
       t.timestamps
     end
+    add_index :likes, [:user_id, :univ_class_id], unique: true
   end
 end

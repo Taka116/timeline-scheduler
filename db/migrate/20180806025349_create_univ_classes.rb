@@ -18,5 +18,3 @@ class CreateUnivClasses < ActiveRecord::Migration[5.2]
     add_index :univ_classes, [:class_code, :subject_name, :professor]
   end
 end
-
-# level,number_of_credit,content_of_class,evaluation_system,class_url
