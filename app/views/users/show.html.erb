@@ -13,43 +13,43 @@
     <tbody class="user-timeline">
       <tr>
         <th scope="row">1</th>
-        <td id='月1'></td>
-        <td id='火1'></td>
-        <td id='水1'></td>
-        <td id='木1'></td>
-        <td id='金1'></td>
+        <td class="day-period" id='月1'></td>
+        <td class="day-period" id='火1'></td>
+        <td class="day-period" id='水1'></td>
+        <td class="day-period" id='木1'></td>
+        <td class="day-period" id='金1'></td>
       </tr>
       <tr>
         <th scope="row">2</th>
-        <td id='月2'></td>
-        <td id='火2'></td>
-        <td id='水2'></td>
-        <td id='木2'></td>
-        <td id='金2'></td>
+        <td class="day-period" id='月2'></td>
+        <td class="day-period" id='火2'></td>
+        <td class="day-period" id='水2'></td>
+        <td class="day-period" id='木2'></td>
+        <td class="day-period" id='金2'></td>
       </tr>
       <tr>
-        <th scope="row">3</th>
-        <td id='月3'></td>
-        <td id='火3'></td>
-        <td id='水3'></td>
-        <td id='木3'></td>
-        <td id='金3'></td>
+        <th  scope="row">3</th>
+        <td class="day-period" id='月3'></td>
+        <td class="day-period" id='火3'></td>
+        <td class="day-period" id='水3'></td>
+        <td class="day-period" id='木3'></td>
+        <td class="day-period" id='金3'></td>
       </tr>
       <tr>
         <th scope="row">4</th>
-        <td id='月4'></td>
-        <td id='火4'></td>
-        <td id='水4'></td>
-        <td id='木4'></td>
-        <td id='金4'></td>
+        <td class="day-period" id='月4'></td>
+        <td class="day-period" id='火4'></td>
+        <td class="day-period" id='水4'></td>
+        <td class="day-period" id='木4'></td>
+        <td class="day-period" id='金4'></td>
       </tr>
       <tr>
         <th scope="row">5</th>
-        <td id='月5'></td>
-        <td id='火5'></td>
-        <td id='水5'></td>
-        <td id='木5'></td>
-        <td id='金5'></td>
+        <td class="day-period" id='月5'></td>
+        <td class="day-period" id='火5'></td>
+        <td class="day-period" id='水5'></td>
+        <td class="day-period" id='木5'></td>
+        <td class="day-period" id='金5'></td>
       </tr>
     </tbody>
   </table>
@@ -58,6 +58,10 @@
 <style>
 #user-timeline-table {
   width: 0%;
+}
+
+.day-period {
+  height: 140px;
 }
 </style>
 
@@ -78,6 +82,7 @@
                       <tr> <td text-align='justify'> class code: <font size=2>" + class_code + "</font> \
                       <tr> <td text-align='justify'> professor: <font size=2>" + professor + "</font> \
                       </ul> \ </div> \ </div>"
+    console.log(insertText);
     element.insertAdjacentHTML('afterbegin', insertText)
   });
 </script>

@@ -14,119 +14,125 @@
 
   <body>
     <div class="container">
-        <nav class="navbar navbar-inverse">
-          <div class="container-fluid">
-            <div class="navbar-header">
-              <% if @user.nil? %>
-                <%= link_to "Timeline Scheduler", univ_classes_path(@user), class: "navbar-brand" %>
-              <% else %>
-                <%= link_to "Timeline Scheduler", user_path(@user), class: "navbar-brand" %>
-              <% end %>
-            </div>
-            <ul class="nav navbar-nav">
-              <!--<li class="active"><a href="#">Home</a></li>-->
-              <li><a href="#">Home</a></li>
-              <li class='dropdown'>
-                <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-                  Course List <span class='caret'></span>
-                </a>
-                <ul class='dropdown-menu'>
-                  <li>
-                    <% if @user.nil? %>
-                      <%= link_to "Language", univ_classes_path(:level => 'language') %>
-                    <% else %>
-                      <%= link_to "Language", user_univ_classes_path(@user, :level => 'language') %>
-                    <% end %>
-                  </li>
-                  <li class='divider'></li>
-                  <li>
-                    <% if @user.nil? %>
-                      <%= link_to "First Year Seminar I", univ_classes_path(:level => 'first_year_seminar_I') %>
-                    <% else %>
-                      <%= link_to "First Year Seminar I", user_univ_classes_path(@user, :level => 'first_year_seminar_I') %>
-                    <% end %>
-                  </li>
-                  <li class='divider'></li>
-                  <li>
-                    <% if @user.nil? %>
-                      <%= link_to "First Year Seminar II", univ_classes_path(:level => 'first_year_seminar_I') %>
-                    <% else %>
-                      <%= link_to "First Year Seminar II", user_univ_classes_path(@user, :level => 'first_year_seminar_II') %>
-                    <% end %>
-                  </li>
-                  <li class='divider'></li>
-                  <li>
-                    <% if @user.nil? %>
-                      <%= link_to "Intermediate Seminar", univ_classes_path(:level => 'first_year_seminar_I') %>
-                    <% else %>
-                      <%= link_to "Intermediate Seminar", user_univ_classes_path(@user, :level => 'intermidiate_seminar') %>
-                    <% end %>
-                  </li>
-                  <li class='divider'></li>
-                  <li>
-                    <% if @user.nil? %>
-                      <%= link_to "Advanced Seminar", univ_classes_path(:level => 'first_year_seminar_I') %>
-                    <% else %>
-                      <%= link_to "Advanced Seminar", user_univ_classes_path(@user, :level => 'advanced_seminar') %>
-                    <% end %>
-                  </li>
-                  <li class='divider'></li>
-                  <li>
-                    <% if @user.nil? %>
-                      <%= link_to "Introductory Course", univ_classes_path(:level => 'first_year_seminar_I') %>
-                    <% else %>
-                      <%= link_to "Introductory Course", user_univ_classes_path(@user, :level => 'introductory_course') %>
-                    <% end %>
-                  </li>
-                  <li class='divider'></li>
-                  <li>
-                    <% if @user.nil? %>
-                      <%= link_to "Intermediate Course", univ_classes_path(:level => 'first_year_seminar_I') %>
-                    <% else %>
-                      <%= link_to "Intermediate Course", user_univ_classes_path(@user, :level => 'intermidiate_course') %>
-                    <% end %>
-                  </li>
-                  <li class='divider'></li>
-                  <li>
-                    <% if @user.nil? %>
-                      <%= link_to "Advanced Course", univ_classes_path(:level => 'first_year_seminar_I') %>
-                    <% else %>
-                      <%= link_to "Advanced Course", user_univ_classes_path(@user, :level => 'advanced_course') %>
-                    <% end %>
-                  </li>
-                  <li class='divider'></li>
-                  <li>
-                    <% if @user.nil? %>
-                      <%= link_to "Advanced Course", univ_classes_path(:level => 'first_year_seminar_I') %>
-                    <% else %>
-                      <%= link_to "Other Course", user_univ_classes_path(@user, :level => 'other_course') %>
-                    <% end %>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <%= link_to "Your List", user_likes_path(@user), method: :get%>
-              </li>
-            </ul>
-            <form class="navbar-form navbar-left" action="/action_page.php">
-              <div class="form-group">
-                <%= select_tag 'searchDropdownBox', options_for_select(UnivClass.all.map(&:subject_name)), class: "searchable", include_blank: "Search By Subject Name" %>
+      <div class="row">
+        <div class="col-lg-12">
+          <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <% if @user.nil? %>
+                  <%= link_to "Timeline Scheduler", univ_classes_path(@user), class: "navbar-brand" %>
+                <% else %>
+                  <%= link_to "Timeline Scheduler", user_path(@user), class: "navbar-brand" %>
+                <% end %>
               </div>
-              <input type="button" onclick='"#"' value="Submit" class="btn btn-info" id="search-by-subject-button"/>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-              <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-            </ul>
-          </div>
-        </nav>
+              <ul class="nav navbar-nav">
+                <!--<li class="active"><a href="#">Home</a></li>-->
+                <li>
+                  <%= link_to "Home", root_path %>
+                </li>
+                <li class='dropdown'>
+                  <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
+                    Course List <span class='caret'></span>
+                  </a>
+                  <ul class='dropdown-menu'>
+                    <li>
+                      <% if @user.nil? %>
+                        <%= link_to "Language", univ_classes_path(:level => 'language') %>
+                      <% else %>
+                        <%= link_to "Language", user_univ_classes_path(@user, :level => 'language') %>
+                      <% end %>
+                    </li>
+                    <li class='divider'></li>
+                    <li>
+                      <% if @user.nil? %>
+                        <%= link_to "First Year Seminar I", univ_classes_path(:level => 'first_year_seminar_I') %>
+                      <% else %>
+                        <%= link_to "First Year Seminar I", user_univ_classes_path(@user, :level => 'first_year_seminar_I') %>
+                      <% end %>
+                    </li>
+                    <li class='divider'></li>
+                    <li>
+                      <% if @user.nil? %>
+                        <%= link_to "First Year Seminar II", univ_classes_path(:level => 'first_year_seminar_I') %>
+                      <% else %>
+                        <%= link_to "First Year Seminar II", user_univ_classes_path(@user, :level => 'first_year_seminar_II') %>
+                      <% end %>
+                    </li>
+                    <li class='divider'></li>
+                    <li>
+                      <% if @user.nil? %>
+                        <%= link_to "Intermediate Seminar", univ_classes_path(:level => 'first_year_seminar_I') %>
+                      <% else %>
+                        <%= link_to "Intermediate Seminar", user_univ_classes_path(@user, :level => 'intermidiate_seminar') %>
+                      <% end %>
+                    </li>
+                    <li class='divider'></li>
+                    <li>
+                      <% if @user.nil? %>
+                        <%= link_to "Advanced Seminar", univ_classes_path(:level => 'first_year_seminar_I') %>
+                      <% else %>
+                        <%= link_to "Advanced Seminar", user_univ_classes_path(@user, :level => 'advanced_seminar') %>
+                      <% end %>
+                    </li>
+                    <li class='divider'></li>
+                    <li>
+                      <% if @user.nil? %>
+                        <%= link_to "Introductory Course", univ_classes_path(:level => 'first_year_seminar_I') %>
+                      <% else %>
+                        <%= link_to "Introductory Course", user_univ_classes_path(@user, :level => 'introductory_course') %>
+                      <% end %>
+                    </li>
+                    <li class='divider'></li>
+                    <li>
+                      <% if @user.nil? %>
+                        <%= link_to "Intermediate Course", univ_classes_path(:level => 'first_year_seminar_I') %>
+                      <% else %>
+                        <%= link_to "Intermediate Course", user_univ_classes_path(@user, :level => 'intermidiate_course') %>
+                      <% end %>
+                    </li>
+                    <li class='divider'></li>
+                    <li>
+                      <% if @user.nil? %>
+                        <%= link_to "Advanced Course", univ_classes_path(:level => 'first_year_seminar_I') %>
+                      <% else %>
+                        <%= link_to "Advanced Course", user_univ_classes_path(@user, :level => 'advanced_course') %>
+                      <% end %>
+                    </li>
+                    <li class='divider'></li>
+                    <li>
+                      <% if @user.nil? %>
+                        <%= link_to "Advanced Course", univ_classes_path(:level => 'first_year_seminar_I') %>
+                      <% else %>
+                        <%= link_to "Other Course", user_univ_classes_path(@user, :level => 'other_course') %>
+                      <% end %>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <%= link_to "Your List", user_likes_path(@user), method: :get%>
+                </li>
+              </ul>
+              <form class="navbar-form navbar-left" action="/action_page.php">
+                <div class="form-group">
+                  <%= select_tag 'searchDropdownBox', options_for_select(UnivClass.all.map(&:subject_name)), class: "searchable", include_blank: "Search By Subject Name" %>
+                </div>
+                <input type="button" onclick='"#"' value="Submit" class="btn btn-info" id="search-by-subject-button"/>
+              </form>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Out</a></li>
+                <!--<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>-->
+              </ul>
+            </div>
+          </nav>
+        </div>
         <% flash.each do |key, value| %>
           <div class="alert alert-<%= key %> alert-dismissible">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <%= value %>
           </div>
         <% end %>
-      <%= yield %>
+        <%= yield %>
+      </div>
     </div>
     
     <style>

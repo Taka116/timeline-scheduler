@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: "univ_classes#index"
+  root to: "home#index"
   
   resources :univ_classes, only: [:index]
 
