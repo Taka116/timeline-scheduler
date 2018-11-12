@@ -1,5 +1,5 @@
 
-User.create(first_name: "Nobody")
+# User.create(first_name: "Nobody")
 
 require 'csv'
 CSV.foreach("db/class.csv", headers: true) do |row|

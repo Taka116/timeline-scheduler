@@ -9,12 +9,21 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item mx-0 mx-lg-1">
-              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Sign Up</a>
-            </li>
-            <li class="nav-item mx-0 mx-lg-1">
-              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Log In</a>
-            </li>
+            <% if current_user %>
+              <li class="nav-item mx-0 mx-lg-1">
+                <%= link_to "Your Page", user_univ_classes_path(current_user), method: :get, class: 'nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger' %>
+              </li>
+              <li class="nav-item mx-0 mx-lg-1">
+                <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: 'nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger' %>
+              </li>
+            <% else %>
+              <li class="nav-item mx-0 mx-lg-1">
+                <%= link_to "Sign Up", new_user_registration_path, class: 'nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger' %>
+              </li>
+              <li class="nav-item mx-0 mx-lg-1">
+                <%= link_to "Log In", new_user_session_path, class: 'nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger' %>
+              </li>
+            <% end %>
             <li class="nav-item mx-0 mx-lg-1">
               <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">About</a>
             </li>
@@ -29,6 +38,14 @@
     <!-- Header -->
     <header class="masthead bg-primary text-white text-center">
       <div class="container">
+        <div class="container">
+          <% flash.each do |key, value| %>
+            <div class="alert alert-<%= key %> alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <%= value %>
+            </div>
+          <% end %>
+        </div>
         <%= image_tag("app_logo.png", size: "60*60", align: "top") %>
         <h1 class="text-uppercase mb-0">Timeline Builder</h1>
         <hr class="star-light">
@@ -179,5 +196,8 @@
   <style>
     #about {
       border-top: medium solid white;
+    }
+    .alert {
+      margin-top: -100px;
     }
   </style>

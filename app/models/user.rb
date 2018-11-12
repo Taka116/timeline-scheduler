@@ -1,8 +1,16 @@
 class User < ApplicationRecord
-    has_many :univ_classes, dependent: :destroy
-    has_many :likes, dependent: :destroy
-    
-    scope :with_univ_class_details, -> { includes(univ_classes: [:univ_class_details]) }
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :trackable, :validatable, :confirmable
+
+  has_many :univ_classes, dependent: :destroy
+  has_many :likes, dependent: :destroy
+  
+  scope :with_univ_class_details, -> { includes(univ_classes: [:univ_class_details]) }
+  
+  validates :email, uniqueness: true
+  validates :nickname, uniqueness: true
     
     # Future::: デザインを揃える際に、同じ日、periodにあるレコードとそうじゃないやつを取得しなくてはいけない？？
     # def self.univ_class_with_same_day_and_period

@@ -1,4 +1,3 @@
-<%= flash[:notice]  %>
 <!--<table>-->
 <div class="container">
     <div class="panel panel-info detailed-search">
@@ -6,11 +5,11 @@
             <h3>Detailed Search</h3>
         </div>
         <div class="panel-body">
-            <div class="dropdown-detailed-search">
+            <div class="dropdown-detailed-search" style="display: inline-block; width:250px;">
                 <div class="dropdown-day">
                     <div class="dropdown col-xs-12">
                     	<button class="btn btn-default dropdown-toggle detailed-search" disable="true" type="button" data-toggle="dropdown" data-target="day">
-                    		Select Day<span class="caret" style="margin-left: 10px"></span>
+                    		Select Day<span class="caret" style="margin-left: 10px;"></span>
                     	</button>
                     	<ul class="dropdown-menu" role="menu">
                     		<li role="presentation"><a tabindex="-1" href="javascript:void(0)">Mon</a></li>
@@ -23,7 +22,7 @@
                     </div>
                 </div>
             </div>
-            <div class="dropdown-detailed-search">
+            <div class="dropdown-detailed-search" style="display: inline-block; width:250px;">
                 <div class="dropdown-period">
                     <div class="dropdown col-xs-12">
                     	<button class="btn btn-default dropdown-toggle detailed-search" type="button" data-toggle="dropdown" data-target="period">
@@ -40,7 +39,7 @@
                     </div>
                 </div>
             </div>
-            <div class="dropdown-detailed-search">
+            <div class="dropdown-detailed-search" style="display: inline-block; width:250px;">
                 <div class="dropdown-level">
                     <div class="dropdown col-xs-12">
                     	<button class="btn btn-default dropdown-toggle detailed-search" type="button" data-toggle="dropdown" data-target="period">
@@ -60,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            <div class="dropdown-detailed-search">
+            <div class="dropdown-detailed-search" style="display: inline-block;">
                 <input type="button" onclick='"#"' value="Search!" class="btn btn-primary detailed-search-button" id="detailed-search-button"/>
         	</div>
         </div>
@@ -138,9 +137,9 @@
         margin-bottom: 27px;
         margin-left: 80px;
     }
-    .dropdown-detailed-search {
-       display: inline-block !important;
-    }
+    /*.dropdown-detailed-search {*/
+    /*   display: inline-block !important;*/
+    /*}*/
     .slash{
         font-size: 30px;
         margin-left: 50px;
@@ -202,7 +201,7 @@
         var level_convertor = { "Language" : "language", 
             "First Year Seminar I" : "first_year_seminar_I", 
             "First Year Seminar II" : "first_year_seminar_II",
-            "Intermediate Seminar" : "intermidiate_seminar",
+            "Intermediate Seminar" : "intermediate_seminar",
             "Advanced Seminar" : "Advanced Seminar",
             "Introductory Course" : "introductory_course",
             "Intermediate Course" : "intermediate_course",

@@ -1,6 +1,8 @@
 class UnivClassesController < ApplicationController
+    before_action :authenticate_user!
+
     def index
-        @user = User.find(params[:user_id])
+        @user = User.find(current_user.id)
         @univ_classes = 
             UnivClass
                 .with_univ_class_details
@@ -24,8 +26,8 @@ class UnivClassesController < ApplicationController
             end
             @sentence = [@day, @period, @level].compact.join(" | ")
         elsif params[:level].present?
-            levels = params[:level] == "All" ? UnivClass.pluck(:level).uniq :  params[:level]
-            @univ_classes = UnivClass.where(level: levels)
+            levels = params[:level] == "All" ? UnivClass.pluck(:level).uniq : params[:level]
+            @univ_classes = UnivClass.joins(:univ_class_details).where(level: levels)
             @sentence = params[:level].split('_').map {|ele| ele=="II" ? ele : ele.capitalize }.join(' ')
         else
             @univ_classes = UnivClass.all
