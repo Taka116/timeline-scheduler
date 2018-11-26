@@ -16,4 +16,3 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require select2
-//= require_tree .

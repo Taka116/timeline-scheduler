@@ -3,6 +3,9 @@
 	<div class="logo">register</div>
 	<!-- Main Form -->
 	<div class="login-form-1">
+	  <div class="registration-validation-error">
+	    <%= devise_error_messages! %>
+	  </div>
 	  <%= form_for(resource, as: resource_name, url: user_registration_path, html: {id: "register-form", class: "text-left"}) do |f| %>
 		<!--<form id="register-form" class="text-left">-->
 			<div class="login-form-main-message"></div>
