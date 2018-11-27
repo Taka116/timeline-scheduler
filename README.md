@@ -1,23 +1,26 @@
 # Timeline Builder
 
-This app is an online timeline maker for my university.
-Populated by classes scraped from an online sullabus, the app allows users to build their own timeline.
-The app is implemented with a muti-search function so it facilitates users to find what they are looking for.
+url: https://timeline-builder.herokuapp.com
 
-Things you may want to cover:
+This app is an online timeline creation tools for selecting courses in Waseda University, SILS in the Fall Semester.
+The classes listed in this app were scraped from Waseda University online syllabus.
 
-* Ruby version
+functionality
 
-* System dependencies
+* Multi-Element Search
+This app solves the problem of time-consuming syllabus search by realizing multi-element search.
+You can find which courses are conducted in specific day and period.
+You can also sort classes by the name or the level (eg: language, introductory, intermediate, advanced, seminar...).
 
-* Configuration
+* Store your favorite courses
+Even though you are not sure what classes to take, you can choose your favorite courses for temporary, and then decide which courses to take after on.
 
-* Database creation
+Technology Stack
+- Backend: Ruby On Rails 5.2
+- Frontend: Bootstrap3, Javascript, HTML, CSS
+- Development Environment: Cloud9
+- Hosting Environment: Heroku
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
+Developer's Info
+Takayuki Inoue
+email: takabasket116@akane.waseda.jp
