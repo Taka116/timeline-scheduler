@@ -76,7 +76,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     :user_name => "app113473230@heroku.com",
     :password => "zvx08j7d8609",
-    :domain => "timeline-builder.herokuapp.com",
+    :domain => "herokuapp.com",
     :address => "smtp.sendgrid.net",
     :port => 587,
     :authentication => :plain,
