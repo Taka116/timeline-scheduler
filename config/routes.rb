@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   devise_for :user
+  get '/user', to: redirect("/user/sign_up"), as: "user_sign_up_again"
+
   root to: "home#index"
   
   resources :univ_classes, only: [:index]
@@ -17,5 +19,5 @@ Rails.application.routes.draw do
   #/users/:id/univ_classes/search　これはエラー。users/:user_id/univ_classes/searchじゃないとだめ！！idはuniv_class_idと認識されてしまう。注意
   # get "/users/:id/univ_classes/search", to: 'univ_classes#search'
   
-  get '*path', controller: 'application', action: 'render_404'
+  # get '*path', controller: 'application', action: 'render_404'
 end

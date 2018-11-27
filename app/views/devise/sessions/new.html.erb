@@ -8,30 +8,16 @@
   				<div class="login-group">
   					<div class="form-group">
   						<%= f.label :email, class: "sr-only"  %><br />
-              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "email" %>
+  						<%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "email" %>
   					</div>
   					<div class="form-group">
   					  <%= f.label :password, class: "sr-only"  %><br />
-              <%= f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: "password" %>
+              		   <%= f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: "password" %>
   					</div>
   					
     				<%= f.submit "login", class: "login-button" do %>
     				  <i class="fa fa-chevron-right"></i>
     				<% end %>
-    			
-    				
-    				<!--<div class="form-group login-group-checkbox">-->
-  					  <!--< if devise_mapping.rememberable? %>-->
-  					    <!--<= f.label :remember_me,  %>-->
-  					    <!--<label for="lg_remember">remember</label>-->
-                <!--<= f.check_box :remember_me %>-->
-              <!--< end -%>-->
-              
-  						<!--<input type="checkbox" id="lg_remember" name="lg_remember">-->
-  						<!--<label for="lg_remember">remember</label>-->
-  					<!--</div>-->
-    				<!--<button type="submit" class="login-button"><i class="fa fa-chevron-right"></i></button>-->
-  
   				</div>
   			</div>
   		<% end %>
